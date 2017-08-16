@@ -39,6 +39,26 @@ ext {
     buildStandaloneInfoTmpPath = "buildStandaloneInfoTmp"
 }
 
+ext.getVersionNameForStandAlone = { ->
+
+    if (System.getProperty('VERSIONNAME') != null ) {
+        return System.getProperty('VERSIONNAME');
+    }
+    else{
+        retun "1.0X";
+    }
+}
+
+ext.getVersionCodeForStandAlone = { ->
+
+    if (System.getProperty('VERSIONCODE') != null ) {
+        return System.getProperty('VERSIONCODE');
+    }
+    else{
+        retun "1.0X";
+    }
+}
+
 task buildStandalone() << {
     def id = 824; //debugging purpose only
     def downloadUrl = "";
@@ -85,6 +105,7 @@ task buildStandalone() << {
             .replaceAll("\"", "&quot;").replaceAll("'", "&apos;");
 
     manifestText = manifestText.replaceAll("@string/app_name", projectName);
+
     manifestText = manifestText.replaceAll("@drawable/ic_launcher", "@drawable/icon");
     manifestFile.write(manifestText)
 
@@ -93,7 +114,12 @@ task buildStandalone() << {
     File googleServicesJsonFile = file(project.ext.googleServicesJsonPath)
     def googleServicesJsonText = googleServicesJsonFile.text
 
-    googleServicesJsonText = googleServicesJsonText.replaceAll("org.catrobat.catroid", "org.catrobat.catroid." + getPackageNameSuffix())
+ //   googleServicesJsonText = googleServicesJsonText.replaceAll("org.catrobat.catroid", "org.catrobat.catroid." +
+// getPackageNameSuffix())
+
+    googleServicesJsonText = googleServicesJsonText.replaceAll("org.catrobat.catroid", getPackageNameSuffix())
+
+
     googleServicesJsonFile.write(googleServicesJsonText)
 
     File standaloneInfoTmpFile = file(project.ext.buildStandaloneInfoTmpPath)
@@ -134,26 +160,37 @@ ext.getProjectName = {
 ext.getPackageNameSuffix = {
     println ':getPackageNameSuffix'
     if (project.hasProperty("suffix")) {
-        return project["suffix"]
+
+         return project["suffix"]
     } else {
-        //return "standalone"
+        //return "standalone"#
+
         return "g" + getProgramId(false);
     }
 }
 
 ext.getProgramId = { boolean deleteInfoFile ->
     File standaloneInfoTmpFile = file(project.ext.buildStandaloneInfoTmpPath)
+
+
+    println "standaloneInfoTmpFile found--------------------------- " + standaloneInfoTmpFile.exists()
+
     if (standaloneInfoTmpFile.exists()) {
+
         def lines = standaloneInfoTmpFile.readLines()
         assert 2 == lines.size()
 
+        println "Start Project set to  --------------------------- " + lines[0]
+
         if (deleteInfoFile) {
+
             delete buildStandaloneInfoTmpPath
         }
 
         return lines[0]
     }
 
+    println "NO programID found ... "
     return "noID"
 }
 
