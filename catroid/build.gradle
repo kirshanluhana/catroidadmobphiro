@@ -107,7 +107,18 @@ android {
             buildConfigField "boolean", "FEATURE_CAST_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
-            resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
+          //  resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
+
+            //for standalon release
+            resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
+            buildConfigField "String", "ROOT_FOLDER", "\"${(String) getProjectName()}\"";
+
+            //admob data
+            buildConfigField "String", "ADMOB_TEST_DEVICE", "\"164E4EA45DEB3B08A158CC58E1891553\""  ;
+            buildConfigField "String", "ADMOB_ADMOB_APP_ID", "\"ca-app-pub-5989456993509901~3243054094\""  ;
+            buildConfigField "String", "ADMOB_UNIT_ID", "\"ca-app-pub-5989456993509901/9800368362\""  ;
+            buildConfigField "String", "ADMOB_DIRECTION", "\"down\""  ;
+
         }
     }
 
@@ -119,6 +130,7 @@ android {
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
+            buildConfigField "String", "ROOT_FOLDER", "\"Pocket Code\""  ;
         }
 
         standalone {
@@ -128,11 +140,16 @@ android {
             versionName getVersionNameForStandAlone()
 
             buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectName()}\"";
+            buildConfigField "String", "ROOT_FOLDER", "\"${(String) getProjectName()}\"";
             buildConfigField "String", "START_PROJECT", "\"${(String) getProgramId(true) }\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_STANDALONE_SHOW_MARKETING_ON_END", "false"
+            buildConfigField "boolean", "FEATURE_STANDALONE_RELEASED", "true"
             buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
+            resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
+
+
+
 
         }
     }
@@ -179,6 +196,9 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:4.14.1'
     compile 'com.android.support:support-v4:24.1.1'
     compile 'com.google.android.gms:play-services-auth:9.4.0'
+
+    compile 'com.google.android.gms:play-services-ads:9.4.0'
+
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.github.billthefarmer:mididriver:v1.13'
 

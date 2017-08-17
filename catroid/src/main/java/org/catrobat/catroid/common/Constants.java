@@ -61,10 +61,15 @@ public final class Constants {
 	public static final String[] IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".png", ".gif"};
 	public static final String[] SOUND_EXTENSIONS = {".wav", ".mp3", ".mpga", ".wav", ".ogy"};
 
-	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
-			+ "/" + BuildConfig.PROJECT_NAME;
 
- //	+ "/Pocket Code";
+		public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
+				+ "/" + BuildConfig.ROOT_FOLDER;
+
+		public static final String DEFAULT_ROOTx = Environment.getExternalStorageDirectory().getAbsolutePath()
+				+ "/" + "/Pocket Code";
+
+
+
 
 
 

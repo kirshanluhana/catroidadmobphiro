@@ -42,11 +42,17 @@ import android.view.KeyEvent;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.Toolbar;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -162,6 +168,49 @@ public class StageActivity extends AndroidApplication {
 
 		BackgroundWaitHandler.reset();
 		SnackbarUtil.showHintSnackbar(this, R.string.hint_stage);
+
+		if (BuildConfig.FEATURE_STANDALONE_RELEASED) {
+
+			//adMob code
+			MobileAds.initialize(this, BuildConfig.ADMOB_ADMOB_APP_ID);
+
+			AdRequest adRequest = new AdRequest.Builder()
+					.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+					.addTestDevice(BuildConfig.ADMOB_TEST_DEVICE)
+					.build();
+
+			RelativeLayout relativeLayout  = new RelativeLayout(this);
+			RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams  (
+					Toolbar.LayoutParams.MATCH_PARENT,
+					Toolbar.LayoutParams.WRAP_CONTENT) ;
+
+
+			AdView adView = new AdView(this);
+			adView.setAdSize(AdSize.BANNER);
+			//adView.setBackgroundColor(Color.RED);
+			adView.setMinimumHeight(140);
+			adView.setAdUnitId(BuildConfig.ADMOB_UNIT_ID);
+			adView.loadAd(adRequest);
+		//	layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+
+			if ("up".equals( BuildConfig.ADMOB_DIRECTION)) {
+				layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+			}
+			else
+			{
+				layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+			}
+
+
+			relativeLayout.addView(adView,layoutParams);
+			addContentView( relativeLayout,layoutParams);
+			//	setContentView(relativeLayout);
+
+
+		}
+
+
+
 	}
 
 	private void setupAskHandler() {
@@ -241,7 +290,7 @@ public class StageActivity extends AndroidApplication {
 	public void onBackPressed() {
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
 
-			if (BuildConfig.FEATURE_STANDALONE_SHOW_MARKETING_ON_END) {
+			if (BuildConfig.FEATURE_STANDALONE_RELEASED==false) {
 				PreStageActivity.shutdownPersistentResources();
 				Intent marketingIntent = new Intent(StageActivity.this, MarketingActivity.class);
 				startActivity(marketingIntent);
