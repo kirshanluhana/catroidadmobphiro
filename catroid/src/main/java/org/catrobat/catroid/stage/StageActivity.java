@@ -201,15 +201,11 @@ public class StageActivity extends AndroidApplication {
 				layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 			}
 
-
 			relativeLayout.addView(adView,layoutParams);
 			addContentView( relativeLayout,layoutParams);
 			//	setContentView(relativeLayout);
 
-
 		}
-
-
 
 	}
 

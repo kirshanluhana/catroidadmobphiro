@@ -45,7 +45,7 @@ ext.getVersionNameForStandAlone = { ->
         return System.getProperty('VERSIONNAME');
     }
     else{
-        retun "1.0X";
+        return "1.0X";
     }
 }
 
@@ -55,7 +55,7 @@ ext.getVersionCodeForStandAlone = { ->
         return System.getProperty('VERSIONCODE');
     }
     else{
-        retun "1.0X";
+        return "1";
     }
 }
 
@@ -104,9 +104,12 @@ task buildStandalone() << {
     projectName = projectName.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
             .replaceAll("\"", "&quot;").replaceAll("'", "&apos;");
 
-    manifestText = manifestText.replaceAll("@string/app_name", projectName);
+
+    //manifestText = manifestText.replaceAll("@string/app_name", projectName);
 
     manifestText = manifestText.replaceAll("@drawable/ic_launcher", "@drawable/icon");
+
+
     manifestFile.write(manifestText)
 
     removeUnecessaryPermissions()
