@@ -39,6 +39,7 @@ repositories {
 }
 
 apply plugin: 'com.android.application'
+
 apply plugin: 'io.fabric'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
@@ -52,6 +53,8 @@ check.dependsOn 'pmd'
 
 def appId = 'org.catrobat.catroid'
 def appName = '@string/app_name'
+def appIcon = '@drawable/ic_launcher'
+
 
 // When -Pindependent was provided on the gradle command the APP name is changed.
 // This allows to have multiple Catroid versions installed in parallel for testing purposes.
@@ -64,6 +67,8 @@ if (project.hasProperty('independent')) {
 
 //ant.copy(file: 'google-services-template.json', tofile: 'google-services.json', overwrite: true)
 //ant.replace(file: 'google-services.json', token: '@appId@', value: appId)
+
+
 
 android {
     dexOptions {
@@ -92,6 +97,12 @@ android {
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
             ext.enableCrashlytics = false
+
+            //admob data
+            buildConfigField "String", "ADMOB_TEST_DEVICE", "\"NA\""  ;
+            buildConfigField "String", "ADMOB_ADMOB_APP_ID", "\"NA\""  ;
+            buildConfigField "String", "ADMOB_UNIT_ID", "\"NA\""  ;
+            buildConfigField "String", "ADMOB_DIRECTION", "\"down\""  ;
         }
         release {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
@@ -114,11 +125,13 @@ android {
             buildConfigField "String", "ROOT_FOLDER", "\"${(String) getProjectName()}\"";
 
             //admob data
-            buildConfigField "String", "ADMOB_TEST_DEVICE", "\"164E4EA45DEB3B08A158CC58E1891553\""  ;
-            buildConfigField "String", "ADMOB_ADMOB_APP_ID", "\"ca-app-pub-5989456993509901~3243054094\""  ;
-            buildConfigField "String", "ADMOB_UNIT_ID", "\"ca-app-pub-5989456993509901/9800368362\""  ;
-            buildConfigField "String", "ADMOB_DIRECTION", "\"down\""  ;
+            buildConfigField "String", "ADMOB_TEST_DEVICE", "\"${(String) getAdMobTestDevice()}\"";
+            buildConfigField "String", "ADMOB_ADMOB_APP_ID", "\"${(String) getAdMobAppID()}\"";
+            buildConfigField "String", "ADMOB_UNIT_ID", "\"${(String) getAdMobUnitID()}\"";
+            buildConfigField "String", "ADMOB_DIRECTION", "\"${(String) getAdMobAdDirection()}\"";
 
+            println "Ad set to ..............1 " + getAdMobTestDevice() + "---2" +getAdMobAppID() + "--3" +
+                    getAdMobUnitID() + "---4" + getAdMobAdDirection()
         }
     }
 
@@ -131,6 +144,8 @@ android {
             buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             buildConfigField "String", "ROOT_FOLDER", "\"Pocket Code\""  ;
+            buildConfigField "boolean", "FEATURE_STANDALONE_RELEASED", "false"
+            appIcon = '@drawable/ic_launcher'
         }
 
         standalone {
@@ -138,19 +153,18 @@ android {
             applicationId  getPackageNameSuffix()
             versionCode getVersionCodeForStandAlone().toInteger()
             versionName getVersionNameForStandAlone()
+            appName = getProjectName()
+            appIcon = '@drawable/icon'
 
             buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectName()}\"";
             buildConfigField "String", "ROOT_FOLDER", "\"${(String) getProjectName()}\"";
+
             buildConfigField "String", "START_PROJECT", "\"${(String) getProgramId(true) }\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_STANDALONE_RELEASED", "true"
             buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
-
-
-
-
         }
     }
 }
@@ -261,6 +275,10 @@ android {
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
         multiDexEnabled true
         manifestPlaceholders += [appName: appName]
+        manifestPlaceholders += [appIcon: appIcon]
+        println "settings output ---------------- " + appIcon + "-- " + appName
+
+
     }
 
     packagingOptions {

@@ -193,7 +193,7 @@ public class StageActivity extends AndroidApplication {
 			adView.loadAd(adRequest);
 		//	layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 
-			if ("up".equals( BuildConfig.ADMOB_DIRECTION)) {
+			if ("top".equals( BuildConfig.ADMOB_DIRECTION)) {
 				layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 			}
 			else

@@ -59,6 +59,49 @@ ext.getVersionCodeForStandAlone = { ->
     }
 }
 
+
+ext.getAdMobAppID = { ->
+
+    if (System.getProperty('ADMOB_APP_ID') != null ) {
+        return System.getProperty('ADMOB_APP_ID');
+    }
+    else{
+        return "AdMobAppID";
+    }
+}
+
+ext.getAdMobTestDevice = { ->
+
+    if (System.getProperty('ADMOB_TEST_DEVICE') != null ) {
+        return System.getProperty('ADMOB_TEST_DEVICE');
+    }
+    else{
+        return "AdMobTestDevice";
+    }
+}
+
+ext.getAdMobUnitID = { ->
+
+    if (System.getProperty('ADMOB_AD_UNIT_ID') != null ) {
+        return System.getProperty('ADMOB_AD_UNIT_ID');
+    }
+    else{
+        return "AdMobUnitID";
+    }
+}
+
+ext.getAdMobAdDirection = { ->
+
+    if (System.getProperty('ADMOB_DIRECTION') != null ) {
+        return System.getProperty('ADMOB_DIRECTION');
+    }
+    else{
+        return "top";
+    }
+}
+
+
+
 task buildStandalone() << {
     def id = 824; //debugging purpose only
     def downloadUrl = "";
