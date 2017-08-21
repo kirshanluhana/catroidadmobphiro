@@ -106,6 +106,11 @@ task buildStandalone() << {
     def id = 824; //debugging purpose only
     def downloadUrl = "";
 
+ant.copy(file: 'google-services-template.json', tofile: 'google-services.json', overwrite: true)
+ant.replace(file: 'google-services.json', token: '@appId@', value: appId)
+
+
+
     if (project.hasProperty("download")) {
         downloadUrl = project["download"]
         id = project["suffix"]
