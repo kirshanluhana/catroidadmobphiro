@@ -38,10 +38,13 @@ import android.os.Message;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.SurfaceView;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toolbar;
 
@@ -116,32 +119,26 @@ public class StageActivity extends AndroidApplication {
 					.addTestDevice(BuildConfig.ADMOB_TEST_DEVICE)
 					.build();
 
-			RelativeLayout relativeLayout  = new RelativeLayout(this);
-			RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams  (
-					Toolbar.LayoutParams.MATCH_PARENT,
-					Toolbar.LayoutParams.WRAP_CONTENT) ;
-
-
-			AdView adView = new AdView(this);
-			adView.setAdSize(AdSize.BANNER);
-			//adView.setBackgroundColor(Color.RED);
-			adView.setMinimumHeight(140);
-			adView.setAdUnitId(BuildConfig.ADMOB_UNIT_ID);
-			adView.loadAd(adRequest);
-			//	layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+			FrameLayout layout = (FrameLayout) findViewById(android.R.id.content);
+			FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams
+					.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
 			if ("top".equals( BuildConfig.ADMOB_DIRECTION)) {
-				layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+				layoutParams.gravity = Gravity.TOP;
 			}
 			else
 			{
-				layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+				layoutParams.gravity = Gravity.BOTTOM;
 			}
 
-			relativeLayout.addView(adView,layoutParams);
-			addContentView( relativeLayout,layoutParams);
-			//	setContentView(relativeLayout);
+			AdView adView = new AdView(this);
+			adView.setAdSize(AdSize.BANNER);
+			adView.setAdUnitId(BuildConfig.ADMOB_UNIT_ID);
+			adView.loadAd(adRequest);
 
+			layout.addView(adView,layoutParams);
+			//addContentView( relativeLayout,layoutParams);
+			//	setContentView(relativeLayout);
 		}
 	}
 
