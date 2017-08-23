@@ -138,7 +138,7 @@ public class StageActivity extends AndroidApplication {
 			adView.loadAd(adRequest);
 			layout.addView(adView,layoutParams);
 			//addContentView( relativeLayout,layoutParams);
-				setContentView(layout);
+			//	setContentView(layout);
 
 		}
 	}
