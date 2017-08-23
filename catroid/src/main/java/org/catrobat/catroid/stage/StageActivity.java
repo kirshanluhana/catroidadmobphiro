@@ -117,6 +117,7 @@ public class StageActivity extends AndroidApplication {
 			AdRequest adRequest = new AdRequest.Builder()
 					.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
 					.addTestDevice(BuildConfig.ADMOB_TEST_DEVICE)
+
 					.build();
 
 			FrameLayout layout = (FrameLayout) findViewById(android.R.id.content);
@@ -137,7 +138,8 @@ public class StageActivity extends AndroidApplication {
 			adView.loadAd(adRequest);
 			layout.addView(adView,layoutParams);
 			//addContentView( relativeLayout,layoutParams);
-			//	setContentView(relativeLayout);
+				setContentView(layout);
+
 		}
 	}
 
