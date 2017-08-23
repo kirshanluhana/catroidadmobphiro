@@ -135,7 +135,6 @@ public class StageActivity extends AndroidApplication {
 			adView.setAdSize(AdSize.BANNER);
 			adView.setAdUnitId(BuildConfig.ADMOB_UNIT_ID);
 			adView.loadAd(adRequest);
-
 			layout.addView(adView,layoutParams);
 			//addContentView( relativeLayout,layoutParams);
 			//	setContentView(relativeLayout);
