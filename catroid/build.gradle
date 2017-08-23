@@ -130,8 +130,6 @@ android {
             buildConfigField "String", "ADMOB_UNIT_ID", "\"${(String) getAdMobUnitID()}\"";
             buildConfigField "String", "ADMOB_DIRECTION", "\"${(String) getAdMobAdDirection()}\"";
 
-            println "Ad set to ..............1 " + getAdMobTestDevice() + "---2" +getAdMobAppID() + "--3" +
-                    getAdMobUnitID() + "---4" + getAdMobAdDirection()
         }
     }
 
@@ -240,7 +238,6 @@ dependencies {
     compile ('com.android.support.test.espresso:espresso-contrib:2.2.2') {
         exclude group: 'com.android.support'
     }
-
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.8.47'
 
@@ -277,8 +274,6 @@ android {
         manifestPlaceholders += [appName: appName]
         manifestPlaceholders += [appIcon: appIcon]
         println "settings output ---------------- " + appIcon + "-- " + appName
-
-
     }
 
     packagingOptions {
