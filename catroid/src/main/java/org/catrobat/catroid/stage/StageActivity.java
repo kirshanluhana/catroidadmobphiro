@@ -103,6 +103,48 @@ public class StageActivity extends AndroidApplication {
 	private boolean resizePossible;
 	private boolean askDialogUnanswered = false;
 
+	@Override
+	protected void onStart() {
+		super.onStart();
+		if (BuildConfig.FEATURE_STANDALONE_RELEASED) {
+
+			//adMob code
+			MobileAds.initialize(this, BuildConfig.ADMOB_ADMOB_APP_ID);
+
+			AdRequest adRequest = new AdRequest.Builder()
+					.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+					.addTestDevice(BuildConfig.ADMOB_TEST_DEVICE)
+					.build();
+
+			RelativeLayout relativeLayout  = new RelativeLayout(this);
+			RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams  (
+					Toolbar.LayoutParams.MATCH_PARENT,
+					Toolbar.LayoutParams.WRAP_CONTENT) ;
+
+
+			AdView adView = new AdView(this);
+			adView.setAdSize(AdSize.BANNER);
+			//adView.setBackgroundColor(Color.RED);
+			adView.setMinimumHeight(140);
+			adView.setAdUnitId(BuildConfig.ADMOB_UNIT_ID);
+			adView.loadAd(adRequest);
+			//	layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+
+			if ("top".equals( BuildConfig.ADMOB_DIRECTION)) {
+				layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+			}
+			else
+			{
+				layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+			}
+
+			relativeLayout.addView(adView,layoutParams);
+			addContentView( relativeLayout,layoutParams);
+			//	setContentView(relativeLayout);
+
+		}
+	}
+
 	private static int numberOfSpritesCloned;
 
 	public static Handler messageHandler;
@@ -169,43 +211,7 @@ public class StageActivity extends AndroidApplication {
 		BackgroundWaitHandler.reset();
 		SnackbarUtil.showHintSnackbar(this, R.string.hint_stage);
 
-		if (BuildConfig.FEATURE_STANDALONE_RELEASED) {
 
-			//adMob code
-			MobileAds.initialize(this, BuildConfig.ADMOB_ADMOB_APP_ID);
-
-			AdRequest adRequest = new AdRequest.Builder()
-					.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-					.addTestDevice(BuildConfig.ADMOB_TEST_DEVICE)
-					.build();
-
-			RelativeLayout relativeLayout  = new RelativeLayout(this);
-			RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams  (
-					Toolbar.LayoutParams.MATCH_PARENT,
-					Toolbar.LayoutParams.WRAP_CONTENT) ;
-
-
-			AdView adView = new AdView(this);
-			adView.setAdSize(AdSize.BANNER);
-			//adView.setBackgroundColor(Color.RED);
-			adView.setMinimumHeight(140);
-			adView.setAdUnitId(BuildConfig.ADMOB_UNIT_ID);
-			adView.loadAd(adRequest);
-		//	layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-
-			if ("top".equals( BuildConfig.ADMOB_DIRECTION)) {
-				layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-			}
-			else
-			{
-				layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-			}
-
-			relativeLayout.addView(adView,layoutParams);
-			addContentView( relativeLayout,layoutParams);
-			//	setContentView(relativeLayout);
-
-		}
 
 	}
 
