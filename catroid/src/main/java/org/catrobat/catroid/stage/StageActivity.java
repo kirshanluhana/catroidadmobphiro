@@ -41,6 +41,7 @@ import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -52,6 +53,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
@@ -109,38 +111,7 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		if (BuildConfig.FEATURE_STANDALONE_RELEASED) {
 
-			//adMob code
-			MobileAds.initialize(this, BuildConfig.ADMOB_ADMOB_APP_ID);
-
-			AdRequest adRequest = new AdRequest.Builder()
-					.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-					.addTestDevice(BuildConfig.ADMOB_TEST_DEVICE)
-
-					.build();
-
-			FrameLayout layout = (FrameLayout) findViewById(android.R.id.content);
-			FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams
-					.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-			if ("top".equals( BuildConfig.ADMOB_DIRECTION)) {
-				layoutParams.gravity = Gravity.TOP;
-			}
-			else
-			{
-				layoutParams.gravity = Gravity.BOTTOM;
-			}
-
-			AdView adView = new AdView(this);
-			adView.setAdSize(AdSize.BANNER);
-			adView.setAdUnitId(BuildConfig.ADMOB_UNIT_ID);
-			adView.loadAd(adRequest);
-			layout.addView(adView,layoutParams);
-			//addContentView( relativeLayout,layoutParams);
-			//	setContentView(layout);
-
-		}
 	}
 
 	private static int numberOfSpritesCloned;
@@ -209,9 +180,61 @@ public class StageActivity extends AndroidApplication {
 		BackgroundWaitHandler.reset();
 		SnackbarUtil.showHintSnackbar(this, R.string.hint_stage);
 
-
+		showAdMob();
 
 	}
+
+
+	private void showAdMob(){
+		if (BuildConfig.FEATURE_STANDALONE_RELEASED) {
+
+			//adMob code
+			MobileAds.initialize(this, BuildConfig.ADMOB_ADMOB_APP_ID);
+
+			AdRequest adRequest = new AdRequest.Builder()
+					.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+					.addTestDevice(BuildConfig.ADMOB_TEST_DEVICE)
+
+					.build();
+
+			FrameLayout layout = (FrameLayout) findViewById(android.R.id.content);
+			FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams
+					.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+			if ("top".equals( BuildConfig.ADMOB_DIRECTION)) {
+				layoutParams.gravity = Gravity.TOP;
+			}
+			else
+			{
+				layoutParams.gravity = Gravity.BOTTOM;
+			}
+
+			final AdView adView = new AdView(this);
+			adView.setAdSize(AdSize.SMART_BANNER);
+			adView.setAdUnitId(BuildConfig.ADMOB_UNIT_ID);
+			adView.loadAd(adRequest);
+
+			layout.addView(adView,layoutParams);
+
+			//addContentView( relativeLayout,layoutParams);
+			//	setContentView(layout);
+			adView.setAdListener(new AdListener() {
+				@Override
+				public void onAdLoaded() {
+
+					Log.d("Admon status:" , "ad banner finished loading!");
+					adView.setVisibility(View.GONE);
+					adView.setVisibility(View.VISIBLE);
+				}
+			});
+
+
+			Log.d("Admon status:" , "on create test");
+
+		}
+	}
+
+
 
 	private void setupAskHandler() {
 		final StageActivity currentStage = this;
