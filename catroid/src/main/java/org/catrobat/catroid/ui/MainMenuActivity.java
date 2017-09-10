@@ -480,6 +480,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 		Archiver archiver = ArchiverFactory.createArchiver("zip");
 
 		//File unpackedDirectory = new File(Constants.DEFAULT_ROOT + "/" + START_PROJECT);
+
 		File unpackedDirectory = new File(Constants.DEFAULT_ROOT + "/" + STANDALONE_PROJECT_NAME);
 		Log.d("STANDALONE", "START_PROJECT " + START_PROJECT);
 
@@ -498,8 +499,8 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 			unpackedDirectory.renameTo(destination);
 		}
 
-		//loadStageProject(STANDALONE_PROJECT_NAME);
-		loadStageProject(ZIP_FILE_NAME);
+		loadStageProject(STANDALONE_PROJECT_NAME);
+		//loadStageProject(ZIP_FILE_NAME);
 
 		File zipFile = new File(zipFileString);
 		if (zipFile.exists()) {
