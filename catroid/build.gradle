@@ -60,8 +60,8 @@ if (project.hasProperty('independent')) {
     appId += '.independent_' + today.format('YYYYMMdd_HHmm')
     appName = property('independent') ?: 'Code ' + today.format('MMdd HH:mm')
 }
-ant.copy(file: 'google-services-template.json', tofile: 'google-services.json', overwrite: true)
-ant.replace(file: 'google-services.json', token: '@appId@', value: appId)
+//ant.copy(file: 'google-services-template.json', tofile: 'google-services.json', overwrite: true)
+//ant.replace(file: 'google-services.json', token: '@appId@', value: appId)
 
 android {
     dexOptions {
@@ -103,7 +103,11 @@ android {
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
-            resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
+           // resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
+             //for standalon release
+            resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
+            buildConfigField "String", "ROOT_FOLDER", "\"${(String) getProjectName()}\"";
+
         }
     }
 
@@ -117,14 +121,28 @@ android {
         }
 
         standalone {
-            applicationId appId + '.' + getPackageNameSuffix()
-            versionCode 1
-            versionName '1.0'
+           
+
+             
+             //  applicationId appId + '.' + getPackageNameSuffix()
+            applicationId  getPackageNameSuffix()
+            versionCode getVersionCodeForStandAlone().toInteger()
+            versionName getVersionNameForStandAlone()
+            
+            appName = getProjectName()
+            appIcon = '@drawable/icon'
 
             buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectName()}\"";
+            buildConfigField "String", "ROOT_FOLDER", "\"${(String) getProjectName()}\"";
+
             buildConfigField "String", "START_PROJECT", "\"${(String) getProgramId(true) }\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_STANDALONE_RELEASED", "true"
+            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
+            resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
+            
+            
         }
     }
 }
@@ -231,6 +249,9 @@ android {
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
         multiDexEnabled true
         manifestPlaceholders += [appName: appName]
+        manifestPlaceholders += [appIcon: appIcon]
+        println "settings output ---------------- " + appIcon + "-- " + appName
+        
     }
 
     packagingOptions {
