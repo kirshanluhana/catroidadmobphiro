@@ -39,10 +39,35 @@ ext {
     buildStandaloneInfoTmpPath = "buildStandaloneInfoTmp"
 }
 
+ext.getVersionNameForStandAlone = { ->
+
+    if (System.getProperty('VERSIONNAME') != null ) {
+        return System.getProperty('VERSIONNAME');
+    }
+    else{
+        return "1.0X";
+    }
+}
+
+ext.getVersionCodeForStandAlone = { ->
+
+    if (System.getProperty('VERSIONCODE') != null ) {
+        return System.getProperty('VERSIONCODE');
+    }
+    else{
+        return "1";
+    }
+}
+
+
+
 task buildStandalone() << {
     def id = 824; //debugging purpose only
     def downloadUrl = "";
 
+ ant.copy(file: 'google-services-template.json', tofile: 'google-services.json', overwrite: true)
+ ant.replace(file: 'google-services.json', token: '@appId@', value: getPackageNameSuffix())
+    
     if (project.hasProperty("download")) {
         downloadUrl = project["download"]
         id = project["suffix"]
@@ -84,7 +109,7 @@ task buildStandalone() << {
     projectName = projectName.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
             .replaceAll("\"", "&quot;").replaceAll("'", "&apos;");
 
-    manifestText = manifestText.replaceAll("@string/app_name", projectName);
+   // manifestText = manifestText.replaceAll("@string/app_name", projectName);
     manifestText = manifestText.replaceAll("@drawable/ic_launcher", "@drawable/icon");
     manifestFile.write(manifestText)
 
@@ -93,7 +118,7 @@ task buildStandalone() << {
     File googleServicesJsonFile = file(project.ext.googleServicesJsonPath)
     def googleServicesJsonText = googleServicesJsonFile.text
 
-    googleServicesJsonText = googleServicesJsonText.replaceAll("org.catrobat.catroid", "org.catrobat.catroid." + getPackageNameSuffix())
+    //googleServicesJsonText = googleServicesJsonText.replaceAll("org.catrobat.catroid", "org.catrobat.catroid." + getPackageNameSuffix())
     googleServicesJsonFile.write(googleServicesJsonText)
 
     File standaloneInfoTmpFile = file(project.ext.buildStandaloneInfoTmpPath)
