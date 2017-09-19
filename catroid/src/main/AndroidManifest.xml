@@ -84,7 +84,7 @@
     <application
         android:name=".CatroidApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="${appIcon}"
         android:label="${appName}"
         android:theme="@style/Theme.Catroid"
         android:supportsRtl="true">
