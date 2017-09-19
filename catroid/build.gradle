@@ -52,6 +52,8 @@ check.dependsOn 'pmd'
 def appId = 'org.catrobat.catroid'
 def appName = '@string/app_name'
 
+def appIcon = '@drawable/ic_launcher'
+
 // When -Pindependent was provided on the gradle command the APP name is changed.
 // This allows to have multiple Catroid versions installed in parallel for testing purposes.
 // Furthermore these installations do not interfere with the actual Catroid app.
