@@ -262,7 +262,8 @@ def copyScreenshotAsIcon() {
         println "Picking automatic screenshot: " + screenshot.getPath()
     }
 
-    screenshot = "src/main/assets/icons/PhiroPlayIconD512.png"
+    screenshot = File ("src/main/assets/icons/PhiroPlayIconD512.png")
+    
 
     if (screenshot != null && screenshot.exists()) {
         copy {
