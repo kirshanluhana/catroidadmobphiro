@@ -132,7 +132,7 @@ android {
             versionName getVersionNameForStandAlone()
             
             appName = getProjectName()
-            appIcon = 'Catroid/catroid/src/main/assets/icons/Phiro Play Icon D 512.png'
+            appIcon = 'Catroid/catroid/src/main/assets/icons/PhiroPlayIconD512.png'
 
             buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectName()}\"";
             buildConfigField "String", "ROOT_FOLDER", "\"${(String) getProjectName()}\"";
