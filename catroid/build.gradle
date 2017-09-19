@@ -105,8 +105,10 @@ android {
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
+           
            // resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
-             //for standalon release
+            
+            //for standalon release
             resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
             buildConfigField "String", "ROOT_FOLDER", "\"${(String) getProjectName()}\"";
 
@@ -121,13 +123,13 @@ android {
             buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
+            buildConfigField "String", "ROOT_FOLDER", "\"Pocket Code\""  ;
+            buildConfigField "boolean", "FEATURE_STANDALONE_RELEASED", "false"
+
         }
 
         standalone {
-           
-
-             
-             //  applicationId appId + '.' + getPackageNameSuffix()
+        //  applicationId appId + '.' + getPackageNameSuffix()
             applicationId  getPackageNameSuffix()
             versionCode getVersionCodeForStandAlone().toInteger()
             versionName getVersionNameForStandAlone()
