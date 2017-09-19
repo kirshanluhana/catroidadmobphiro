@@ -25,6 +25,8 @@ package org.catrobat.catroid.common;
 import android.os.Environment;
 
 import java.util.Calendar;
+import org.catrobat.catroid.BuildConfig;
+
 
 public final class Constants {
 
