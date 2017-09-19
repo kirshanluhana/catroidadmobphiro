@@ -59,8 +59,12 @@ public final class Constants {
 	public static final String[] IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".png", ".gif"};
 	public static final String[] SOUND_EXTENSIONS = {".wav", ".mp3", ".mpga", ".wav", ".ogy"};
 
-	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
+	public static final String DEFAULT_ROOTx = Environment.getExternalStorageDirectory().getAbsolutePath()
 			+ "/Pocket Code";
+	
+	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
+				+ "/" + BuildConfig.ROOT_FOLDER;
+	
 	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
 	public static final String TMP_IMAGE_PATH = TMP_PATH + "/PocketPaintImage.tmp";
 	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
