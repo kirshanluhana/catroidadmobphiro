@@ -478,7 +478,8 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 		Log.d("STANDALONE", "default root " + Constants.DEFAULT_ROOT);
 		Log.d("STANDALONE", "zip file name:" + ZIP_FILE_NAME);
 		Archiver archiver = ArchiverFactory.createArchiver("zip");
-		File unpackedDirectory = new File(Constants.DEFAULT_ROOT + "/" + START_PROJECT);
+		//File unpackedDirectory = new File(Constants.DEFAULT_ROOT + "/" + START_PROJECT);
+		File unpackedDirectory = new File(Constants.DEFAULT_ROOT + "/" + STANDALONE_PROJECT_NAME);
 		try {
 			archiver.extract(new File(zipFileString), unpackedDirectory);
 		} catch (IOException e) {
