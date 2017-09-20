@@ -479,8 +479,10 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 		Log.d("STANDALONE", "default root " + Constants.DEFAULT_ROOT);
 		Log.d("STANDALONE", "zip file name:" + ZIP_FILE_NAME);
 		Archiver archiver = ArchiverFactory.createArchiver("zip");
+		
 		//File unpackedDirectory = new File(Constants.DEFAULT_ROOT + "/" + START_PROJECT);
 		Log.d("STANDALONE", "START_PROJECT " + START_PROJECT);
+		
 		File unpackedDirectory = new File(Constants.DEFAULT_ROOT + "/" + STANDALONE_PROJECT_NAME);
 		Log.d("STANDALONE", "unpackedDirectory:" + STANDALONE_PROJECT_NAME);
 		try {
@@ -501,11 +503,12 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 
 		File zipFile = new File(zipFileString);
 		if (zipFile.exists()) {
-			zipFile.delete();
+			//zipFile.delete();
 		}
 	}
 
 	private void copyProgramZip() {
+		Log.d("STANDALONE", "copyProgramZip.... START");
 		AssetManager assetManager = getResources().getAssets();
 		String[] files = null;
 		try {
@@ -530,6 +533,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 				}
 			}
 		}
+		Log.d("STANDALONE", "copyProgramZip.... DONE");
 	}
 
 	private void copyFile(InputStream in, OutputStream out) throws IOException {
