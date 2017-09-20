@@ -503,7 +503,7 @@ public class MainMenuActivity extends BaseCastActivity implements OnLoadProjectC
 
 		File zipFile = new File(zipFileString);
 		if (zipFile.exists()) {
-			//zipFile.delete();
+			zipFile.delete();
 		}
 	}
 
