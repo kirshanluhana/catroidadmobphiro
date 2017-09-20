@@ -148,6 +148,8 @@ task buildStandalone()  {
         projectName = projectName.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
                 .replaceAll("\"", "&quot;").replaceAll("'", "&apos;");
 
+        projectName = "Phiro Play"
+        
         //manifestText = manifestText.replaceAll("@string/app_name", projectName);
         manifestText = manifestText.replaceAll("@drawable/ic_launcher", "@drawable/icon");
         manifestFile.write(manifestText)
