@@ -134,7 +134,8 @@ android {
             versionCode getVersionCodeForStandAlone().toInteger()
             versionName getVersionNameForStandAlone()
             
-            appName = getProjectName()
+            appName = "Phiro Play"
+            //getProjectName()
             //appIcon = 'Catroid/catroid/src/main/assets/icons/PhiroPlayIconD512.png'
             appIcon = '@drawable/icon'
 
