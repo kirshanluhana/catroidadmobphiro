@@ -148,7 +148,7 @@ task buildStandalone()  {
         projectName = projectName.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
                 .replaceAll("\"", "&quot;").replaceAll("'", "&apos;");
 
-        projectName = "Phiro Play"
+       
         
         //manifestText = manifestText.replaceAll("@string/app_name", projectName);
         manifestText = manifestText.replaceAll("@drawable/ic_launcher", "@drawable/icon");
@@ -201,8 +201,7 @@ task testremoveIntentFilters() {
 
 ext.getProjectName = {
 
-return "Phiro Play"
-/*
+
     File xmlFile = file(project.ext.standaloneTmpPath + "code.xml")
     File standaloneInfoTmpFile = file(project.ext.buildStandaloneInfoTmpPath)
 
@@ -217,7 +216,7 @@ return "Phiro Play"
     }
 
     return "Default Project"
-    */
+
 }
 
 ext.getPackageNameSuffix = {
