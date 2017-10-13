@@ -106,6 +106,9 @@ task buildStandalone()  {
 
         def id = 824; //debugging purpose only
         def downloadUrl = "";
+        ant.copy(file: 'google-services-template.json', tofile: 'google-services.json', overwrite: true)
+        ant.replace(file: 'google-services.json', token: '@appId@', value: appId)
+
 
         if (project.hasProperty("download")) {
             downloadUrl = project["download"]
@@ -159,7 +162,7 @@ task buildStandalone()  {
 
        // googleServicesJsonText = googleServicesJsonText.replaceAll("org.catrobat.catroid", "org.catrobat.catroid." +
  //getPackageNameSuffix())
-        googleServicesJsonFile.write(googleServicesJsonText)
+      //  googleServicesJsonFile.write(googleServicesJsonText)
 
         File standaloneInfoTmpFile = file(project.ext.buildStandaloneInfoTmpPath)
         println "standaloneInfoTmpFile: " + standaloneInfoTmpFile.absolutePath

@@ -61,8 +61,8 @@ if (project.hasProperty('independent')) {
     appId += '.independent_' + today.format('YYYYMMdd_HHmm')
     appName = property('independent') ?: 'Code ' + today.format('MMdd HH:mm')
 }
-ant.copy(file: 'google-services-template.json', tofile: 'google-services.json', overwrite: false)
-
+//ant.copy(file: 'google-services-template.json', tofile: 'google-services.json', overwrite: false)
+//ant.replace(file: 'google-services.json', token: '@appId@', value: appId)
 
 android {
     dexOptions {
@@ -124,7 +124,6 @@ android {
 
             buildConfigField "String", "ROOT_FOLDER", "\"Pocket Code\""  ;
             buildConfigField "boolean", "FEATURE_STANDALONE_RELEASED", "false"
-            ant.replace(file: 'google-services.json', token: '@appId@', value: appId)
 
         }
 
@@ -150,7 +149,6 @@ android {
 
             buildConfigField "boolean", "FEATURE_STANDALONE_RELEASED", "true"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
-            ant.replace(file: 'google-services.json', token: '@appId@', value: appId)
 
 
         }
