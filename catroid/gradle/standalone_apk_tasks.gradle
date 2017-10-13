@@ -224,9 +224,12 @@ ext.getPackageNameSuffix = {
 
 ext.getProgramId = { boolean deleteInfoFile ->
     File standaloneInfoTmpFile = file(project.ext.buildStandaloneInfoTmpPath)
+    println "standaloneInfoTmpFile found----------------------- " + standaloneInfoTmpFile.exists()
+
     if (standaloneInfoTmpFile.exists()) {
         def lines = standaloneInfoTmpFile.readLines()
         assert 2 == lines.size()
+        println "Start Project set to  ------------------------ " + lines[0]
 
         if (deleteInfoFile) {
             delete buildStandaloneInfoTmpPath
