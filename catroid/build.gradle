@@ -51,6 +51,7 @@ check.dependsOn 'pmd'
 
 def appId = 'org.catrobat.catroid'
 def appName = '@string/app_name'
+def appIcon = '@drawable/ic_launcher'
 
 // When -Pindependent was provided on the gradle command the APP name is changed.
 // This allows to have multiple Catroid versions installed in parallel for testing purposes.
@@ -60,7 +61,7 @@ if (project.hasProperty('independent')) {
     appId += '.independent_' + today.format('YYYYMMdd_HHmm')
     appName = property('independent') ?: 'Code ' + today.format('MMdd HH:mm')
 }
-ant.copy(file: 'google-services-template.json', tofile: 'google-services.json', overwrite: true)
+ant.copy(file: 'google-services-template.json', tofile: 'google-services.json', overwrite: false)
 ant.replace(file: 'google-services.json', token: '@appId@', value: appId)
 
 android {
@@ -104,27 +105,52 @@ android {
             buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
+            //for standalone release
+            buildConfigField "String", "ROOT_FOLDER", "\"${(String) getProjectName()}\"";
+
+
+
         }
     }
 
     productFlavors {
         catroid {
             applicationId appId
+            appIcon = '@drawable/ic_launcher'
             buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
             buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
+
+            buildConfigField "String", "ROOT_FOLDER", "\"Pocket Code\""  ;
+            buildConfigField "boolean", "FEATURE_STANDALONE_RELEASED", "false"
+
         }
 
         standalone {
-            applicationId appId + '.' + getPackageNameSuffix()
+           // applicationId appId + '.' + getPackageNameSuffix()
+            applicationId  getPackageNameSuffix()
+            versionCode getVersionCodeForStandAlone().toInteger()
+            versionName getVersionNameForStandAlone()
+
+            //only for phiro APK generator
+            appName = "Phiro Play"
+            appIcon = '@drawable/icon'
+
             versionCode 1
             versionName '1.0'
 
             buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectName()}\"";
+            buildConfigField "String", "ROOT_FOLDER", "\"${(String) getProjectName()}\"";
+
             buildConfigField "String", "START_PROJECT", "\"${(String) getProgramId(true) }\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
+
+            buildConfigField "boolean", "FEATURE_STANDALONE_RELEASED", "true"
+            resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
+
+
         }
     }
 }
@@ -231,6 +257,9 @@ android {
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
         multiDexEnabled true
         manifestPlaceholders += [appName: appName]
+        manifestPlaceholders += [appIcon: appIcon]
+        println "settings output ---------------- " + appIcon + "-- " + appName
+
     }
 
     packagingOptions {

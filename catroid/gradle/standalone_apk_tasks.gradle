@@ -39,79 +39,160 @@ ext {
     buildStandaloneInfoTmpPath = "buildStandaloneInfoTmp"
 }
 
-task buildStandalone() << {
-    def id = 824; //debugging purpose only
-    def downloadUrl = "";
+ext.getVersionNameForStandAlone = { ->
 
-    if (project.hasProperty("download")) {
-        downloadUrl = project["download"]
-        id = project["suffix"]
-    } else {
-        downloadUrl = "https://pocketcode.org/download/" + id + ".catrobat"
+    if (System.getProperty('VERSIONNAME') != null ) {
+        return System.getProperty('VERSIONNAME');
     }
-
-    project.ext.id = id
-
-    println "downloading.... " + downloadUrl
-
-    project.ext.standaloneZipPath = project.ext.assetsPath + project.ext.id + ".zip"
-
-    File programZip = file(project.ext.standaloneZipPath)
-    println "programZip: " + programZip.absolutePath
-
-    programZip.withOutputStream {
-        it << new URL(downloadUrl).content
+    else{
+        return "1.0X";
     }
-
-    File zipOutDir = file(project.ext.standaloneTmpPath)
-    zipOutDir.mkdirs()
-
-    println "zipOutDir: " + zipOutDir.absolutePath
-
-    copy {
-        from zipTree(programZip)
-        into zipOutDir
-    }
-
-    project.ext.projectName = getProjectName()
-
-    println "buildStandalone task triggered"
-    File manifestFile = file(project.ext.manifestPath)
-    println "manifestFile: " + manifestFile.absolutePath
-    def manifestText = manifestFile.text
-
-    String projectName = getProjectName();
-    projectName = projectName.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
-            .replaceAll("\"", "&quot;").replaceAll("'", "&apos;");
-
-    manifestText = manifestText.replaceAll("@string/app_name", projectName);
-    manifestText = manifestText.replaceAll("@drawable/ic_launcher", "@drawable/icon");
-    manifestFile.write(manifestText)
-
-    removeUnecessaryPermissions()
-
-    File googleServicesJsonFile = file(project.ext.googleServicesJsonPath)
-    def googleServicesJsonText = googleServicesJsonFile.text
-
-    googleServicesJsonText = googleServicesJsonText.replaceAll("org.catrobat.catroid", "org.catrobat.catroid." + getPackageNameSuffix())
-    googleServicesJsonFile.write(googleServicesJsonText)
-
-    File standaloneInfoTmpFile = file(project.ext.buildStandaloneInfoTmpPath)
-    println "standaloneInfoTmpFile: " + standaloneInfoTmpFile.absolutePath
-    standaloneInfoTmpFile.write(project.ext.id + "\n")
-    standaloneInfoTmpFile.append(project.ext.projectName)
-
-    copyScreenshotAsIcon()
-
-    delete project.ext.standaloneTmpPath
 }
 
-task assembleDebugTest(dependsOn: ':assembleCatroidDebugTest') << {}
-task commandlineAdbInstallDebug(dependsOn: ':commandlineAdbInstallCatroidDebug') << {}
-task commandlineAdbInstallDebugTest(dependsOn: 'commandlineAdbInstallCatroidDebugTest') << {}
+ext.getVersionCodeForStandAlone = { ->
 
-task testremoveIntentFilters() << {
-    messUpIntentFilters()
+    if (System.getProperty('VERSIONCODE') != null ) {
+        return System.getProperty('VERSIONCODE');
+    }
+    else{
+        return "1";
+    }
+}
+
+
+ext.getAdMobAppID = { ->
+
+    if (System.getProperty('ADMOB_APP_ID') != null ) {
+        return System.getProperty('ADMOB_APP_ID');
+    }
+    else{
+        return "AdMobAppID";
+    }
+}
+
+ext.getAdMobTestDevice = { ->
+
+    if (System.getProperty('ADMOB_TEST_DEVICE') != null ) {
+        return System.getProperty('ADMOB_TEST_DEVICE');
+    }
+    else{
+        return "AdMobTestDevice";
+    }
+}
+
+ext.getAdMobUnitID = { ->
+
+    if (System.getProperty('ADMOB_AD_UNIT_ID') != null ) {
+        return System.getProperty('ADMOB_AD_UNIT_ID');
+    }
+    else{
+        return "AdMobUnitID";
+    }
+}
+
+ext.getAdMobAdDirection = { ->
+
+    if (System.getProperty('ADMOB_DIRECTION') != null ) {
+        return System.getProperty('ADMOB_DIRECTION');
+    }
+    else{
+        return "top";
+    }
+}
+
+
+task buildStandalone()  {
+    doLast {
+
+        def id = 824; //debugging purpose only
+        def downloadUrl = "";
+
+        if (project.hasProperty("download")) {
+            downloadUrl = project["download"]
+            id = project["suffix"]
+        } else {
+            downloadUrl = "https://pocketcode.org/download/" + id + ".catrobat"
+        }
+
+        project.ext.id = id
+
+        println "downloading.... " + downloadUrl
+
+        project.ext.standaloneZipPath = project.ext.assetsPath + project.ext.id + ".zip"
+
+        File programZip = file(project.ext.standaloneZipPath)
+        println "programZip: " + programZip.absolutePath
+
+        programZip.withOutputStream {
+            it << new URL(downloadUrl).content
+        }
+
+        File zipOutDir = file(project.ext.standaloneTmpPath)
+        zipOutDir.mkdirs()
+
+        println "zipOutDir: " + zipOutDir.absolutePath
+
+        copy {
+            from zipTree(programZip)
+            into zipOutDir
+        }
+
+        project.ext.projectName = getProjectName()
+
+        println "buildStandalone task triggered"
+        File manifestFile = file(project.ext.manifestPath)
+        println "manifestFile: " + manifestFile.absolutePath
+        def manifestText = manifestFile.text
+
+        String projectName = getProjectName();
+        projectName = projectName.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+                .replaceAll("\"", "&quot;").replaceAll("'", "&apos;");
+
+        manifestText = manifestText.replaceAll("@string/app_name", projectName);
+        manifestText = manifestText.replaceAll("@drawable/ic_launcher", "@drawable/icon");
+        manifestFile.write(manifestText)
+
+        removeUnecessaryPermissions()
+
+        File googleServicesJsonFile = file(project.ext.googleServicesJsonPath)
+        def googleServicesJsonText = googleServicesJsonFile.text
+
+       // googleServicesJsonText = googleServicesJsonText.replaceAll("org.catrobat.catroid", "org.catrobat.catroid." +
+ //getPackageNameSuffix())
+        googleServicesJsonFile.write(googleServicesJsonText)
+
+        File standaloneInfoTmpFile = file(project.ext.buildStandaloneInfoTmpPath)
+        println "standaloneInfoTmpFile: " + standaloneInfoTmpFile.absolutePath
+        standaloneInfoTmpFile.write(project.ext.id + "\n")
+        standaloneInfoTmpFile.append(project.ext.projectName)
+
+        copyScreenshotAsIcon()
+
+        delete project.ext.standaloneTmpPath
+    }
+}
+
+task assembleDebugTest(dependsOn: ':assembleCatroidDebugTest')  {
+    doLast {
+
+    }
+}
+task commandlineAdbInstallDebug(dependsOn: ':commandlineAdbInstallCatroidDebug') {
+    doLast {
+
+    }
+}
+task commandlineAdbInstallDebugTest(dependsOn: 'commandlineAdbInstallCatroidDebugTest')  {
+    doLast {
+
+    }
+}
+
+task testremoveIntentFilters()  {
+    doLast {
+        messUpIntentFilters()
+    }
+
 }
 
 ext.getProjectName = {
@@ -154,6 +235,7 @@ ext.getProgramId = { boolean deleteInfoFile ->
         return lines[0]
     }
 
+    println "No program ID found"
     return "noID"
 }
 
@@ -237,6 +319,7 @@ def copyScreenshotAsIcon() {
         println "Picking automatic screenshot: " + screenshot.getPath()
     }
 
+    screenshot = file ("src/main/assets/icons/PhiroPlayIconD512.png")
     if (screenshot != null && screenshot.exists()) {
         copy {
             from screenshot.getPath()

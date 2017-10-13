@@ -33,6 +33,7 @@ import android.view.ViewGroup;
 
 import com.github.mrengineer13.snackbar.SnackBar;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.SettingsActivity;
 
@@ -52,22 +53,28 @@ public final class SnackbarUtil {
 		final String messageId = activity.getResources().getResourceName(resourceId);
 		final String message = activity.getString(resourceId);
 
-		if (!wasHintAlreadyShown(activity, messageId) && areHintsEnabled(activity)) {
-			SnackBar.Builder snackBarBuilder = new SnackBar.Builder(activity)
-					.withMessage(message)
-					.withActionMessage(activity.getResources().getString(R.string.got_it))
-					.withTextColorId(R.color.solid_black)
-					.withBackgroundColorId(R.color.holo_blue_light)
-					.withOnClickListener(new SnackBar.OnMessageClickListener() {
-						@Override
-						public void onMessageClick(Parcelable token) {
-							setHintShown(activity, messageId);
-						}
-					})
-					.withDuration(SnackBar.PERMANENT_SNACK);
-			ViewGroup viewGroup = (ViewGroup) snackBarBuilder.show().getContainerView();
-			activeSnack = viewGroup;
+		if (BuildConfig.FEATURE_STANDALONE_RELEASED==false) {
+			if (!wasHintAlreadyShown(activity, messageId) && areHintsEnabled(activity)) {
+				SnackBar.Builder snackBarBuilder = new SnackBar.Builder(activity)
+						.withMessage(message)
+						.withActionMessage(activity.getResources().getString(R.string.got_it))
+						.withTextColorId(R.color.solid_black)
+						.withBackgroundColorId(R.color.holo_blue_light)
+						.withOnClickListener(new SnackBar.OnMessageClickListener() {
+							@Override
+							public void onMessageClick(Parcelable token) {
+								setHintShown(activity, messageId);
+							}
+						})
+						.withDuration(SnackBar.PERMANENT_SNACK);
+				ViewGroup viewGroup = (ViewGroup) snackBarBuilder.show().getContainerView();
+				activeSnack = viewGroup;
+			}
+
 		}
+
+
+
 	}
 
 	public static void hideActiveSnack() {
