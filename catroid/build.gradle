@@ -136,10 +136,7 @@ android {
             //only for phiro APK generator
             appName = "Phiro Play"
             appIcon = '@drawable/icon'
-
-            versionCode 1
-            versionName '1.0'
-
+            
             buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectName()}\"";
             buildConfigField "String", "ROOT_FOLDER", "\"${(String) getProjectName()}\"";
 
